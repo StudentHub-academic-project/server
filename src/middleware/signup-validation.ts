@@ -6,7 +6,10 @@ export const signupValidation = [
     .isString()
     .isLength({ min: 3 })
     .withMessage('Name must be 3 or more characters length.'),
-  body('fullname').isString().isLength({ min: 3 }).withMessage('Write down you full name.'),
+  body('fullname')
+    .isString()
+    .isLength({ min: 3 })
+    .withMessage('Write down you full name.'),
   body('email').isEmail().withMessage('Wrong email format.'),
   body('password')
     .isString()
