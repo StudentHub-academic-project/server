@@ -1,5 +1,5 @@
-import {sequelize} from "../config";
-import {DataTypes} from "sequelize";
+import { sequelize } from '../config';
+import { DataTypes } from 'sequelize';
 
 export const PostModel = sequelize.define('Post', {
   title: {
@@ -16,6 +16,6 @@ export const PostModel = sequelize.define('Post', {
   },
   rating: {
     type: DataTypes.INTEGER,
-    allowNull: true
+    allowNull: true,
   },
-})
+});
