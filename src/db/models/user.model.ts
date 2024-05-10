@@ -1,7 +1,16 @@
-import {DataTypes, InferAttributes, InferCreationAttributes, Model} from 'sequelize';
+import {
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from 'sequelize';
 import { sequelize } from '../config';
 
-export interface UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
+export interface UserModel
+  extends Model<
+    InferAttributes<UserModel>,
+    InferCreationAttributes<UserModel>
+  > {
   uuid: string;
   username: string;
   fullname: string;

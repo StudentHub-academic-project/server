@@ -1,10 +1,10 @@
 import { Response, Request } from 'express';
 import { handleError } from '@stlib/utils';
-import {SigninDto, SignupDto} from './dto';
+import { SigninDto, SignupDto } from './dto';
 import * as argon from 'argon2';
 import { UserModel } from '../db';
 import { v4 as uuid } from 'uuid';
-import jwt, {JsonWebTokenError, JwtPayload} from "jsonwebtoken";
+import jwt, { JsonWebTokenError, JwtPayload } from 'jsonwebtoken';
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -53,18 +53,18 @@ export const signin = async (req: Request, res: Response) => {
     const dto: SigninDto = req.body;
     const user = await UserModel.findAll({
       where: {
-        email: dto.email
-      }
+        email: dto.email,
+      },
     });
 
-    if(user.length === 0) {
-      return res.status(400).json({ error: 'Credentials are incorrect.'});
+    if (user.length === 0) {
+      return res.status(400).json({ error: 'Credentials are incorrect.' });
     }
 
     const pwMatch = argon.verify(user[0].password, dto.password);
 
-    if(!pwMatch) {
-      return res.status(400).json({error: 'Credentials are incorrect.'});
+    if (!pwMatch) {
+      return res.status(400).json({ error: 'Credentials are incorrect.' });
     }
 
     const token = await signToken(user[0]);
@@ -72,10 +72,10 @@ export const signin = async (req: Request, res: Response) => {
     return res.status(200).json({ token });
   } catch (error) {
     await handleError(error, () => {
-      res.status(500).json({ error: 'Internal server error.'})
-    })
+      res.status(500).json({ error: 'Internal server error.' });
+    });
   }
-}
+};
 
 export const signToken = async (user: UserModel) => {
   const payload: JwtPayload = {
@@ -85,11 +85,13 @@ export const signToken = async (user: UserModel) => {
 
   const jwtkey = process.env.JWT_KEY;
 
-  if(jwtkey === undefined) {
-    throw new JsonWebTokenError('Secret or private key is missing. Define it in environment variables.');
+  if (jwtkey === undefined) {
+    throw new JsonWebTokenError(
+      'Secret or private key is missing. Define it in environment variables.',
+    );
   }
 
   return jwt.sign(payload, jwtkey, {
-    expiresIn: '15d'
+    expiresIn: '15d',
   });
-}
+};

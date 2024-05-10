@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import { app, server } from '../../src/api';
 import { handleErrorSync } from '@stlib/utils';
 import { PostModel, sequelize, UserModel } from '../../src/db';
-import {SigninDto, SignupDto} from '../../src/auth/dto';
+import { SigninDto, SignupDto } from '../../src/auth/dto';
 
 dotenv.config();
 
@@ -86,7 +86,7 @@ describe('End to end tests', () => {
           })
           .expect(403);
       });
-    })
+    });
 
     describe('Sign in', () => {
       const dto: SigninDto = {
@@ -117,6 +117,6 @@ describe('End to end tests', () => {
           })
           .expect(400);
       });
-    })
+    });
   });
 });
