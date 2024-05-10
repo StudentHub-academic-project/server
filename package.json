@@ -1,0 +1,53 @@
+{
+  "name": "studenthub-server",
+  "version": "0.0.1",
+  "description": "RESTful API for StudentHub",
+  "main": "src/index.ts",
+  "repository": "https://github.com/StudentHub-academic-project/server.git",
+  "author": "Kiril Yakymchuk <stbestich@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "ts-node src/index.ts",
+    "start:prod": "node dist/index.js",
+    "start:dev": "nodemon src/index.ts",
+    "format": "prettier . --write",
+    "lint": "eslint .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:e2e": "jest --config test/e2e/jest-e2e.ts",
+    "test:e2e:watch": "jest --config test/e2e/jest-e2e.ts --watch"
+  },
+  "dependencies": {
+    "@stlib/utils": "^0.0.4-stable",
+    "argon2": "^0.40.1",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.2.0",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^20.12.11",
+    "@types/supertest": "^6.0.2",
+    "@types/uuid": "^9.0.8",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "dotenv-cli": "^7.4.2",
+    "eslint": "^9.2.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
