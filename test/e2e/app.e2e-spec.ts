@@ -40,14 +40,14 @@ describe('End to end tests', () => {
       username: 'user',
       fullname: 'user name',
       email: 'email@email.com',
-      password: '1234',
+      password: '123456',
     };
 
-    // it('Should throw if no body provided', async () => {
-    //   return supertest(app).post('/auth/signup').expect(500);
-    // });
+    it('Should throw if no body provided', async () => {
+      return supertest(app).post('/auth/signup').expect(400);
+    });
 
-    it('Should signup', async () => {
+    it('Should throw if email is wrong format', async () => {
       return supertest(app)
         .post('/auth/signup')
         .send({
@@ -55,8 +55,22 @@ describe('End to end tests', () => {
           fullname: dto.fullname,
           email: dto.email,
           password: dto.password,
+          password_repeat: dto.password,
         })
         .expect(201);
+    });
+
+    it('Should signup', async () => {
+      return supertest(app)
+        .post('/auth/signup')
+        .send({
+          username: dto.username,
+          fullname: dto.fullname,
+          email: 'wrongemail',
+          password: dto.password,
+          password_repeat: dto.password,
+        })
+        .expect(400);
     });
 
     it('Should thjrow if user already exists', async () => {
@@ -67,6 +81,7 @@ describe('End to end tests', () => {
           fullname: dto.fullname,
           email: dto.email,
           password: dto.password,
+          password_repeat: dto.password,
         })
         .expect(403);
     });
