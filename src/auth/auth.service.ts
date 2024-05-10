@@ -81,6 +81,7 @@ export const signToken = async (user: UserModel) => {
   const payload: JwtPayload = {
     sub: user.uuid,
     email: user.email,
+    username: user.username,
   };
 
   const jwtkey = process.env.JWT_KEY;
