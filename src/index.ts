@@ -1,6 +1,6 @@
 import './api';
-import {handleErrorSync} from "@stlib/utils";
-import {PostModel, sequelize, UserModel} from "./db";
+import { handleErrorSync } from '@stlib/utils';
+import { PostModel, sequelize, UserModel } from './db';
 
 (async () => {
   try {
@@ -12,5 +12,3 @@ import {PostModel, sequelize, UserModel} from "./db";
     handleErrorSync(error, { throw: true });
   }
 })();
-
-

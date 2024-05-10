@@ -1,9 +1,9 @@
-import { Response, Request } from "express";
-import {handleError} from "@stlib/utils";
-import {SignupDto} from "./dto";
+import { Response, Request } from 'express';
+import { handleError } from '@stlib/utils';
+import { SignupDto } from './dto';
 import * as argon from 'argon2';
-import {UserModel} from "../db";
-import { v4 as uuid } from "uuid";
+import { UserModel } from '../db';
+import { v4 as uuid } from 'uuid';
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -25,16 +25,16 @@ export const signup = async (req: Request, res: Response) => {
       username: dto.username,
       fullname: dto.fullname,
       email: dto.email,
-      password: hash
+      password: hash,
     });
 
     return res.status(200).json(user);
   } catch (error) {
     await handleError(error, () => {
       res.status(500).json('Internal server error.');
-    })
+    });
   }
-}
+};
 
 export const hashPassword = async (password: string) => {
   const hashConfig: argon.Options = {
@@ -43,4 +43,4 @@ export const hashPassword = async (password: string) => {
   };
 
   return await argon.hash(password, hashConfig);
-}
+};
