@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import { AuthRouter } from '../auth/auth.controller';
 
 dotenv.config();
 
@@ -12,6 +13,8 @@ app.use(express.json());
 app.get('/', (_req, res) => {
   res.sendStatus(200);
 });
+
+app.use('/auth', AuthRouter);
 
 export const server = app.listen(PORT, () => {
   console.log(`Server listening on http://${HOST}:${PORT}`);

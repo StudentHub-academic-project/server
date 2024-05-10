@@ -13,10 +13,12 @@ export const signup = async (req: Request, res: Response) => {
     const isExists = await UserModel.findAll({
       where: {
         email: dto.email,
+        username: dto.username,
       },
     });
 
-    if (isExists) {
+    if (isExists.length !== 0) {
+      console.log(isExists);
       return res.status(403).json('Forbidden.');
     }
 
@@ -28,7 +30,7 @@ export const signup = async (req: Request, res: Response) => {
       password: hash,
     });
 
-    return res.status(200).json(user);
+    return res.status(201).json(user);
   } catch (error) {
     await handleError(error, () => {
       res.status(500).json('Internal server error.');
