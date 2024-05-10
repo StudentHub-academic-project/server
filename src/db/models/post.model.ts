@@ -18,4 +18,9 @@ export const PostModel = sequelize.define('Post', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-});
+}, {
+    tableName: 'posts',
+    timestamps: true,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+  });
