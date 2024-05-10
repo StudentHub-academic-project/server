@@ -13,6 +13,6 @@ app.get('/', (_req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
   console.log(`Server listening on http://${HOST}:${PORT}`);
 });
