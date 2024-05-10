@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import { app, server } from '../../src/api';
 import { handleErrorSync } from '@stlib/utils';
 import { PostModel, sequelize, UserModel } from '../../src/db';
-import { SignupDto } from '../../src/auth/dto';
+import {SigninDto, SignupDto} from '../../src/auth/dto';
 
 dotenv.config();
 
@@ -36,54 +36,87 @@ describe('End to end tests', () => {
   });
 
   describe('Auth module', () => {
-    const dto: SignupDto = {
-      username: 'user',
-      fullname: 'user name',
-      email: 'email@email.com',
-      password: '123456',
-    };
+    describe('Sign up', () => {
+      const dto: SignupDto = {
+        username: 'user',
+        fullname: 'user name',
+        email: 'email@email.com',
+        password: '123456',
+      };
 
-    it('Should throw if no body provided', async () => {
-      return supertest(app).post('/auth/signup').expect(400);
-    });
+      it('Should throw if no body provided', async () => {
+        return supertest(app).post('/auth/signup').expect(400);
+      });
 
-    it('Should throw if email is wrong format', async () => {
-      return supertest(app)
-        .post('/auth/signup')
-        .send({
-          username: dto.username,
-          fullname: dto.fullname,
-          email: dto.email,
-          password: dto.password,
-          password_repeat: dto.password,
-        })
-        .expect(201);
-    });
+      it('Should throw if email is wrong format', async () => {
+        return supertest(app)
+          .post('/auth/signup')
+          .send({
+            username: dto.username,
+            fullname: dto.fullname,
+            email: 'wrongemail',
+            password: dto.password,
+            password_repeat: dto.password,
+          })
+          .expect(400);
+      });
 
-    it('Should signup', async () => {
-      return supertest(app)
-        .post('/auth/signup')
-        .send({
-          username: dto.username,
-          fullname: dto.fullname,
-          email: 'wrongemail',
-          password: dto.password,
-          password_repeat: dto.password,
-        })
-        .expect(400);
-    });
+      it('Should signup', async () => {
+        return supertest(app)
+          .post('/auth/signup')
+          .send({
+            username: dto.username,
+            fullname: dto.fullname,
+            email: dto.email,
+            password: dto.password,
+            password_repeat: dto.password,
+          })
+          .expect(201);
+      });
 
-    it('Should thjrow if user already exists', async () => {
-      return supertest(app)
-        .post('/auth/signup')
-        .send({
-          username: dto.username,
-          fullname: dto.fullname,
-          email: dto.email,
-          password: dto.password,
-          password_repeat: dto.password,
-        })
-        .expect(403);
-    });
+      it('Should thjrow if user already exists', async () => {
+        return supertest(app)
+          .post('/auth/signup')
+          .send({
+            username: dto.username,
+            fullname: dto.fullname,
+            email: dto.email,
+            password: dto.password,
+            password_repeat: dto.password,
+          })
+          .expect(403);
+      });
+    })
+
+    describe('Sign in', () => {
+      const dto: SigninDto = {
+        email: 'email@email.com',
+        password: '123456',
+      };
+
+      it('Should throw if no body provided', async () => {
+        return supertest(app).post('/auth/signin').expect(400);
+      });
+
+      it('Should throw if email is wrong format', async () => {
+        return supertest(app)
+          .post('/auth/signin')
+          .send({
+            email: 'wrongmail',
+            password: dto.password,
+          })
+          .expect(400);
+      });
+
+      it('Should signin', async () => {
+        return supertest(app)
+          .post('/auth/signin')
+          .send({
+            email: 'wrongemail',
+            password: dto.password,
+          })
+          .expect(400);
+      });
+    })
   });
 });
