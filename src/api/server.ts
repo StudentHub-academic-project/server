@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import { AuthRouter } from '../auth/auth.controller';
+import { AuthRouter } from '../auth';
 import { rateLimitter } from '../middleware';
 
 dotenv.config();
