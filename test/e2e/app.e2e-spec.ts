@@ -4,7 +4,7 @@ import { app, server } from '../../src/api';
 import { handleErrorSync } from '@stlib/utils';
 import { PostModel, sequelize, UserModel } from '../../src/db';
 import { SigninDto, SignupDto } from '../../src/auth/dto';
-import {EdituserDto} from "../../src/user/dto";
+import { EdituserDto } from '../../src/user/dto';
 
 dotenv.config();
 
@@ -126,9 +126,12 @@ describe('End to end tests', () => {
       });
 
       it('Should return user', () => {
-        return supertest(app).get('/me').set('Authorization', `Bearer ${authtoken}`).expect(200);
-      })
-    })
+        return supertest(app)
+          .get('/me')
+          .set('Authorization', `Bearer ${authtoken}`)
+          .expect(200);
+      });
+    });
 
     describe('/me edit user', () => {
       const dto: EdituserDto = {
@@ -141,21 +144,32 @@ describe('End to end tests', () => {
       });
 
       it('Should return if body is empty', () => {
-        return supertest(app).patch('/me').set('Authorization', `Bearer ${authtoken}`).expect(200);
-      })
+        return supertest(app)
+          .patch('/me')
+          .set('Authorization', `Bearer ${authtoken}`)
+          .expect(200);
+      });
 
       it('Should return even if wrong body params', () => {
-        return supertest(app).patch('/me').set('Authorization', `Bearer ${authtoken}`).send({
-          notexistingparam: 'smth'
-        }).expect(200);
-      })
+        return supertest(app)
+          .patch('/me')
+          .set('Authorization', `Bearer ${authtoken}`)
+          .send({
+            notexistingparam: 'smth',
+          })
+          .expect(200);
+      });
 
       it('Should edit user', () => {
-        return supertest(app).patch('/me').set('Authorization', `Bearer ${authtoken}`).send({
-          username: dto.username,
-          fullname: dto.fullname
-        }).expect(200);
-      })
-    })
-  })
+        return supertest(app)
+          .patch('/me')
+          .set('Authorization', `Bearer ${authtoken}`)
+          .send({
+            username: dto.username,
+            fullname: dto.fullname,
+          })
+          .expect(200);
+      });
+    });
+  });
 });

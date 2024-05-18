@@ -1,6 +1,6 @@
-import express from "express";
-import {isLoggedIn} from "../middleware";
-import {editUser, getUser} from "./user.service";
+import express from 'express';
+import { isLoggedIn } from '../middleware';
+import { editUser, getUser } from './user.service';
 
 export const UserController = express.Router();
 

@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { AuthController } from '../auth';
 import { rateLimitter } from '../middleware';
-import {UserController} from "../user";
+import { UserController } from '../user';
 
 dotenv.config();
 

@@ -1,7 +1,7 @@
-import { Request, Response } from 'express'
-import {UserModel} from "../db";
-import {EdituserDto} from "./dto";
-import {handleError} from "@stlib/utils";
+import { Request, Response } from 'express';
+import { UserModel } from '../db';
+import { EdituserDto } from './dto';
+import { handleError } from '@stlib/utils';
 
 export const getUser = async (req: Request, res: Response) => {
   try {
@@ -9,11 +9,11 @@ export const getUser = async (req: Request, res: Response) => {
 
     const [user] = await UserModel.findAll({
       where: {
-        email
-      }
-    })
+        email,
+      },
+    });
 
-    if(!user) {
+    if (!user) {
       return res.status(404).json('Not found.');
     }
 
@@ -21,9 +21,9 @@ export const getUser = async (req: Request, res: Response) => {
   } catch (error) {
     await handleError(error, () => {
       res.status(500).json({ error: 'Internal server error.' });
-    })
+    });
   }
-}
+};
 
 export const editUser = async (req: Request, res: Response) => {
   try {
@@ -32,14 +32,14 @@ export const editUser = async (req: Request, res: Response) => {
 
     const [user] = await UserModel.findAll({
       where: {
-        email
-      }
+        email,
+      },
     });
 
     user.set({
       username: dto.username ? dto.username : user.username,
       fullname: dto.fullname ? dto.fullname : user.fullname,
-    })
+    });
 
     await user.save().catch(() => {});
 
@@ -47,6 +47,6 @@ export const editUser = async (req: Request, res: Response) => {
   } catch (error) {
     await handleError(error, () => {
       res.status(500).json({ error: 'Internal server error.' });
-    })
+    });
   }
-}
+};
