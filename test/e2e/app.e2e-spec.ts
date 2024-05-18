@@ -74,7 +74,7 @@ describe('End to end tests', () => {
           .expect(201);
       });
 
-      it('Should thjrow if user already exists', async () => {
+      it('Should throw if user already exists', async () => {
         return supertest(app)
           .post('/auth/signup')
           .send({

@@ -12,10 +12,6 @@ export const app = express();
 app.use(express.json());
 app.use(rateLimitter);
 
-app.get('/', (_req, res) => {
-  res.sendStatus(200);
-});
-
 app.use('/auth', AuthRouter);
 
 export const server = app.listen(PORT, () => {
