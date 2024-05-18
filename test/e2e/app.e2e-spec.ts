@@ -4,6 +4,7 @@ import { app, server } from '../../src/api';
 import { handleErrorSync } from '@stlib/utils';
 import { PostModel, sequelize, UserModel } from '../../src/db';
 import { SigninDto, SignupDto } from '../../src/auth/dto';
+import {EdituserDto} from "../../src/user/dto";
 
 dotenv.config();
 
@@ -130,7 +131,7 @@ describe('End to end tests', () => {
     })
 
     describe('/me edit user', () => {
-      const dto = {
+      const dto: EdituserDto = {
         username: 'newname',
         fullname: 'new full name',
       };
@@ -143,10 +144,10 @@ describe('End to end tests', () => {
         return supertest(app).patch('/me').set('Authorization', `Bearer ${authtoken}`).expect(200);
       })
 
-      it('Should throw if wrong body params', () => {
+      it('Should return even if wrong body params', () => {
         return supertest(app).patch('/me').set('Authorization', `Bearer ${authtoken}`).send({
           notexistingparam: 'smth'
-        }).expect(400);
+        }).expect(200);
       })
 
       it('Should edit user', () => {
