@@ -119,13 +119,41 @@ describe('End to end tests', () => {
   });
 
   describe('User', () => {
-    describe('/me', () => {
+    describe('/me get user', () => {
       it('Should throw if not logged in', () => {
         return supertest(app).get('/me').expect(401);
       });
 
       it('Should return user', () => {
         return supertest(app).get('/me').set('Authorization', `Bearer ${authtoken}`).expect(200);
+      })
+    })
+
+    describe('/me edit user', () => {
+      const dto = {
+        username: 'newname',
+        fullname: 'new full name',
+      };
+
+      it('Should throw if not logged in', () => {
+        return supertest(app).patch('/me').expect(401);
+      });
+
+      it('Should return if body is empty', () => {
+        return supertest(app).patch('/me').set('Authorization', `Bearer ${authtoken}`).expect(200);
+      })
+
+      it('Should throw if wrong body params', () => {
+        return supertest(app).patch('/me').set('Authorization', `Bearer ${authtoken}`).send({
+          notexistingparam: 'smth'
+        }).expect(400);
+      })
+
+      it('Should edit user', () => {
+        return supertest(app).patch('/me').set('Authorization', `Bearer ${authtoken}`).send({
+          username: dto.username,
+          fullname: dto.fullname
+        }).expect(200);
       })
     })
   })
