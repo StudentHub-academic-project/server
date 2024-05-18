@@ -8,6 +8,8 @@ import { SigninDto, SignupDto } from '../../src/auth/dto';
 dotenv.config();
 
 describe('End to end tests', () => {
+  let authtoken = '';
+
   beforeAll(async () => {
     try {
       await sequelize.authenticate();
@@ -29,13 +31,7 @@ describe('End to end tests', () => {
     await UserModel.drop();
   });
 
-  describe('GET /', () => {
-    it('Should response with status 200', async () => {
-      return supertest(app).get('/').expect(200);
-    });
-  });
-
-  describe('Auth module', () => {
+  describe('Auth', () => {
     describe('Sign up', () => {
       const dto: SignupDto = {
         username: 'user',
@@ -109,15 +105,28 @@ describe('End to end tests', () => {
       });
 
       it('Should signin', async () => {
-        return supertest(app)
+        const response = await supertest(app)
           .post('/auth/signin')
           .send({
-            email: 'wrongemail',
+            email: dto.email,
             password: dto.password,
           })
-          .expect(400);
+          .expect(200);
+
+        authtoken = response.body.token;
       });
     });
   });
 
+  describe('User', () => {
+    describe('/me', () => {
+      it('Should throw if not logged in', () => {
+        return supertest(app).get('/me').expect(401);
+      });
+
+      it('Should return user', () => {
+        return supertest(app).get('/me').set('Authorization', `Bearer ${authtoken}`).expect(200);
+      })
+    })
+  })
 });
