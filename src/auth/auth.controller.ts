@@ -2,7 +2,7 @@ import express from 'express';
 import { signin, signup } from './auth.service';
 import { signinValidation, signupValidation } from '../middleware';
 
-export const AuthRouter = express.Router();
+export const AuthController = express.Router();
 
-AuthRouter.post('/signup', signupValidation, signup);
-AuthRouter.post('/signin', signinValidation, signin);
+AuthController.post('/signup', signupValidation, signup);
+AuthController.post('/signin', signinValidation, signin);
