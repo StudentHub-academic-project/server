@@ -122,12 +122,12 @@ describe('End to end tests', () => {
   describe('User', () => {
     describe('/me get user', () => {
       it('Should throw if not logged in', () => {
-        return supertest(app).get('/me').expect(401);
+        return supertest(app).get('/user/me').expect(401);
       });
 
       it('Should return user', () => {
         return supertest(app)
-          .get('/me')
+          .get('/user/me')
           .set('Authorization', `Bearer ${authtoken}`)
           .expect(200);
       });
@@ -136,7 +136,7 @@ describe('End to end tests', () => {
     describe('/username get user', () => {
       it('Should return user by username', () => {
         return supertest(app)
-          .get('/user')
+          .get('/user/user')
           .set('Authorization', `Bearer ${authtoken}`)
           .expect(200);
       })
@@ -149,19 +149,19 @@ describe('End to end tests', () => {
       };
 
       it('Should throw if not logged in', () => {
-        return supertest(app).patch('/me').expect(401);
+        return supertest(app).patch('/user/me').expect(401);
       });
 
       it('Should return if body is empty', () => {
         return supertest(app)
-          .patch('/me')
+          .patch('/user/me')
           .set('Authorization', `Bearer ${authtoken}`)
           .expect(200);
       });
 
       it('Should return even if wrong body params', () => {
         return supertest(app)
-          .patch('/me')
+          .patch('/user/me')
           .set('Authorization', `Bearer ${authtoken}`)
           .send({
             notexistingparam: 'smth',
@@ -171,7 +171,7 @@ describe('End to end tests', () => {
 
       it('Should edit user', () => {
         return supertest(app)
-          .patch('/me')
+          .patch('/user/me')
           .set('Authorization', `Bearer ${authtoken}`)
           .send({
             username: dto.username,

@@ -15,8 +15,8 @@ app.use(express.json());
 app.use(rateLimitter);
 
 app.use('/auth', AuthController);
-app.use('/', UserController);
-app.use('/', PostController);
+app.use('/user', UserController);
+app.use('/posts', PostController);
 
 export const server = app.listen(PORT, () => {
   console.log(`Server listening on http://${HOST}:${PORT}`);
