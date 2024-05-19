@@ -14,7 +14,7 @@ export const getUser = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(404).json('Not found.');
+      return res.status(404).json({ message: 'Not found.' });
     }
 
     return res.status(200).json({ user });

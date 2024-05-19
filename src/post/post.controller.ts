@@ -1,11 +1,12 @@
 import express from "express";
 import {isLoggedIn} from "../middleware";
+import {getAllPosts, getPostById} from "./post.service";
 
 export const PostController = express.Router();
 
 PostController.use(isLoggedIn);
-PostController.get('/');
-PostController.get('/:id')
+PostController.get('/', getAllPosts);
+PostController.get('/:post_id', getPostById)
 PostController.post('/')
-PostController.patch('/:id')
-PostController.delete('/:id')
+PostController.patch('/:post_id')
+PostController.delete('/:post_id')
