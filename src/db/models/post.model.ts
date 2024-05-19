@@ -22,7 +22,7 @@ export const PostModel = sequelize.define(
     },
   },
   {
-    tableName: 'posts',
+    tableName: 'post',
     timestamps: true,
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',

@@ -3,6 +3,7 @@ import express from 'express';
 import { AuthController } from '../auth';
 import { rateLimitter } from '../middleware';
 import { UserController } from '../user';
+import {PostController} from "../post";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(rateLimitter);
 
 app.use('/auth', AuthController);
 app.use('/', UserController);
+app.use('/', PostController);
 
 export const server = app.listen(PORT, () => {
   console.log(`Server listening on http://${HOST}:${PORT}`);
