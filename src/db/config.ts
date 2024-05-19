@@ -17,8 +17,8 @@ export const sequelize = new Sequelize({
 (async () => {
   try {
     await sequelize.authenticate();
-    await UserModel.sync();
-    await PostModel.sync();
+    await UserModel.sync({ alter: true });
+    await PostModel.sync({ alter: true });
     return console.log('Database connection established successfully.');
   } catch (error) {
     handleErrorSync(error, { throw: true });

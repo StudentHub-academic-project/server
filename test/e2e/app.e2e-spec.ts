@@ -203,7 +203,7 @@ describe('End to end tests', () => {
           content: 'content of the first post'
         }).expect(201);
 
-        post_id = response.body.uuid;
+        post_id = response.body.post.uuid;
       })
 
       it('Should create another post', () => {
@@ -230,7 +230,10 @@ describe('End to end tests', () => {
 
     describe('Edit posts', () => {
       it('Should throw if wrong post id', () => {
-        return supertest(app).patch(`/posts/wrong_id`).set('Authorization', `Bearer ${authtoken}`).expect(404);
+        return supertest(app).patch(`/posts/wrong_id`).set('Authorization', `Bearer ${authtoken}`).send({
+          title: 'first post',
+          content: 'this is content of the my first post in student hub',
+        }).expect(404);
       })
 
       it('Should throw if no data provided', () => {
