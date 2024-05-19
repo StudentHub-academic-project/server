@@ -112,3 +112,32 @@ export const editPost = async (req: Request, res: Response) => {
     })
   }
 }
+
+export const deletePost = async (req: Request, res: Response) => {
+  try {
+    const { post_id } = req.params;
+    const { sub } = req.user;
+
+    if(!sub) {
+      return res.status(403).json({ message: 'Forbidden.' });
+    }
+
+    const post = await PostModel.findOne({
+      where: {
+        uuid: post_id,
+      }
+    });
+
+    if(!post) {
+      return  res.status(404).json({ message: 'Not found.' });
+    }
+
+    await post.destroy();
+
+    return res.status(204).json({ message: 'Post has been deleted.' });
+  } catch (error) {
+    await handleError(error, () => {
+      res.status(500).json({ error: 'Internal server error.' });
+    })
+  }
+}
