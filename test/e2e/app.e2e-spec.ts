@@ -139,8 +139,8 @@ describe('End to end tests', () => {
           .get('/user/user')
           .set('Authorization', `Bearer ${authtoken}`)
           .expect(200);
-      })
-    })
+      });
+    });
 
     describe('/me edit user', () => {
       const dto: EdituserDto = {
@@ -187,82 +187,127 @@ describe('End to end tests', () => {
 
     describe('Create posts', () => {
       it('Should throws if body is empty', () => {
-        return supertest(app).post(`/posts`).set('Authorization', `Bearer ${authtoken}`).expect(400);
-      })
+        return supertest(app)
+          .post(`/posts`)
+          .set('Authorization', `Bearer ${authtoken}`)
+          .expect(400);
+      });
 
       it('Should throw if any data parameter is wrong type or empty', () => {
-        return supertest(app).post(`/posts`).set('Authorization', `Bearer ${authtoken}`).send({
-          title: '',
-          content: 12,
-        }).expect(400);
-      })
+        return supertest(app)
+          .post(`/posts`)
+          .set('Authorization', `Bearer ${authtoken}`)
+          .send({
+            title: '',
+            content: 12,
+          })
+          .expect(400);
+      });
 
       it('Should create post', async () => {
-        const response = await supertest(app).post(`/posts`).set('Authorization', `Bearer ${authtoken}`).send({
-          title: 'first post',
-          content: 'content of the first post'
-        }).expect(201);
+        const response = await supertest(app)
+          .post(`/posts`)
+          .set('Authorization', `Bearer ${authtoken}`)
+          .send({
+            title: 'first post',
+            content: 'content of the first post',
+          })
+          .expect(201);
 
         post_id = response.body.post.uuid;
-      })
+      });
 
       it('Should create another post', () => {
-        return supertest(app).post(`/posts`).set('Authorization', `Bearer ${authtoken}`).send({
-          title: 'second post',
-          content: 'content of the first post'
-        }).expect(201);
-      })
-    })
+        return supertest(app)
+          .post(`/posts`)
+          .set('Authorization', `Bearer ${authtoken}`)
+          .send({
+            title: 'second post',
+            content: 'content of the first post',
+          })
+          .expect(201);
+      });
+    });
 
     describe('Get posts', () => {
       it('Should get posts', () => {
-        return supertest(app).get('/posts').set('Authorization', `Bearer ${authtoken}`).expect(200);
-      })
+        return supertest(app)
+          .get('/posts')
+          .set('Authorization', `Bearer ${authtoken}`)
+          .expect(200);
+      });
 
       it('Should get post by id', () => {
-        return supertest(app).get(`/posts/${post_id}`).set('Authorization', `Bearer ${authtoken}`).expect(200);
-      })
+        return supertest(app)
+          .get(`/posts/${post_id}`)
+          .set('Authorization', `Bearer ${authtoken}`)
+          .expect(200);
+      });
 
       it('Should throw if wrong post id', () => {
-        return supertest(app).get(`/posts/wrong_id`).set('Authorization', `Bearer ${authtoken}`).expect(404);
-      })
-    })
+        return supertest(app)
+          .get(`/posts/wrong_id`)
+          .set('Authorization', `Bearer ${authtoken}`)
+          .expect(404);
+      });
+    });
 
     describe('Edit posts', () => {
       it('Should throw if wrong post id', () => {
-        return supertest(app).patch(`/posts/wrong_id`).set('Authorization', `Bearer ${authtoken}`).send({
-          title: 'first post',
-          content: 'this is content of the my first post in student hub',
-        }).expect(404);
-      })
+        return supertest(app)
+          .patch(`/posts/wrong_id`)
+          .set('Authorization', `Bearer ${authtoken}`)
+          .send({
+            title: 'first post',
+            content: 'this is content of the my first post in student hub',
+          })
+          .expect(404);
+      });
 
       it('Should throw if no data provided', () => {
-        return supertest(app).patch(`/posts/${post_id}`).set('Authorization', `Bearer ${authtoken}`).expect(400);
-      })
+        return supertest(app)
+          .patch(`/posts/${post_id}`)
+          .set('Authorization', `Bearer ${authtoken}`)
+          .expect(400);
+      });
 
       it('Should throw if post data is wrong type', () => {
-        return supertest(app).patch(`/posts/${post_id}`).set('Authorization', `Bearer ${authtoken}`).send({
-          title: '',
-          content: 12,
-        }).expect(400);
-      })
+        return supertest(app)
+          .patch(`/posts/${post_id}`)
+          .set('Authorization', `Bearer ${authtoken}`)
+          .send({
+            title: '',
+            content: 12,
+          })
+          .expect(400);
+      });
 
       it('Should edit post', () => {
-        return supertest(app).patch(`/posts/${post_id}`).set('Authorization', `Bearer ${authtoken}`).send({
-          title: 'first post',
-          content: 'content of the first post'
-        }).expect(200);
-      })
-    })
+        return supertest(app)
+          .patch(`/posts/${post_id}`)
+          .set('Authorization', `Bearer ${authtoken}`)
+          .send({
+            title: 'first post',
+            content: 'content of the first post',
+          })
+          .expect(200);
+      });
+    });
 
     describe('Delete posts', () => {
       it('Should throw if wrong post id', () => {
-        return supertest(app).delete(`/posts/wrong_id`).set('Authorization', `Bearer ${authtoken}`).expect(404);
-      })
+        return supertest(app)
+          .delete(`/posts/wrong_id`)
+          .set('Authorization', `Bearer ${authtoken}`)
+          .expect(404);
+      });
 
       it('Should delete post', () => {
-        return supertest(app).delete(`/posts/${post_id}`).set('Authorization', `Bearer ${authtoken}`).expect(204);
-      })
-    })
-  })
+        return supertest(app)
+          .delete(`/posts/${post_id}`)
+          .set('Authorization', `Bearer ${authtoken}`)
+          .expect(204);
+      });
+    });
+  });
 });

@@ -1,5 +1,10 @@
 import { sequelize } from '../config';
-import {DataTypes, InferAttributes, InferCreationAttributes, Model} from 'sequelize';
+import {
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from 'sequelize';
 
 export interface PostModel
   extends Model<
