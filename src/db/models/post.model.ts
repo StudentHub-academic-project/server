@@ -1,12 +1,28 @@
 import { sequelize } from '../config';
-import { DataTypes } from 'sequelize';
+import {DataTypes, InferAttributes, InferCreationAttributes, Model} from 'sequelize';
 
-export const PostModel = sequelize.define(
+export interface PostModel
+  extends Model<
+    InferAttributes<PostModel>,
+    InferCreationAttributes<PostModel>
+  > {
+  uuid: string;
+  title: string;
+  content: string;
+  userId: string;
+  rating?: number;
+}
+
+export const PostModel = sequelize.define<PostModel>(
   'Post',
   {
+    uuid: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     title: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     content: {
       type: DataTypes.STRING,
