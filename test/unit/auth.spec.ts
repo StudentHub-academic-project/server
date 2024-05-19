@@ -1,4 +1,4 @@
-import {hashPassword} from "../../src/auth/auth.service";
+import { hashPassword } from '../../src/auth/auth.service';
 
 describe('hashPassword', () => {
   it('should return a hashed string', async () => {
