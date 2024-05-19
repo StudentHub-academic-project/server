@@ -5,11 +5,11 @@ import { handleError } from '@stlib/utils';
 
 export const getUser = async (req: Request, res: Response) => {
   try {
-    const { email } = req.user;
+    const username = req.params?.username || req.user.username;
 
-    const [user] = await UserModel.findAll({
+    const user = await UserModel.findOne({
       where: {
-        email,
+        username,
       },
     });
 

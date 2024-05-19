@@ -6,4 +6,5 @@ export const UserController = express.Router();
 
 UserController.use(isLoggedIn);
 UserController.get('/me', getUser);
+UserController.get('/:username', getUser);
 UserController.patch('/me', editUser);

@@ -133,6 +133,15 @@ describe('End to end tests', () => {
       });
     });
 
+    describe('/username get user', () => {
+      it('Should return user by username', () => {
+        return supertest(app)
+          .get('/user')
+          .set('Authorization', `Bearer ${authtoken}`)
+          .expect(200);
+      })
+    })
+
     describe('/me edit user', () => {
       const dto: EdituserDto = {
         username: 'newname',
