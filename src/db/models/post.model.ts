@@ -11,6 +11,7 @@ export interface PostModel
   content: string;
   userId: string;
   rating?: number;
+  votes?: number;
 }
 
 export const PostModel = sequelize.define<PostModel>(
@@ -33,6 +34,10 @@ export const PostModel = sequelize.define<PostModel>(
       allowNull: false,
     },
     rating: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    votes: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
