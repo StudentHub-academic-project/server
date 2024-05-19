@@ -197,11 +197,13 @@ describe('End to end tests', () => {
         }).expect(400);
       })
 
-      it('Should create post', () => {
-        return supertest(app).post(`/posts`).set('Authorization', `Bearer ${authtoken}`).send({
+      it('Should create post', async () => {
+        const response = await supertest(app).post(`/posts`).set('Authorization', `Bearer ${authtoken}`).send({
           title: 'first post',
           content: 'content of the first post'
         }).expect(201);
+
+        post_id = response.body.uuid;
       })
 
       it('Should create another post', () => {
