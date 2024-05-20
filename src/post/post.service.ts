@@ -125,6 +125,7 @@ export const deletePost = async (req: Request, res: Response) => {
     const post = await PostModel.findOne({
       where: {
         uuid: post_id,
+        userId: sub
       },
     });
 
