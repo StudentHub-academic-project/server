@@ -7,13 +7,7 @@ import { EditPostDto } from './dto/edit-post.dto';
 
 export const getAllPosts = async (req: Request, res: Response) => {
   try {
-    const { sub } = req.user;
-
-    const posts = await PostModel.findAll({
-      where: {
-        userId: sub,
-      },
-    });
+    const posts = await PostModel.findAll();
 
     return res.status(200).json({ posts });
   } catch (error) {
@@ -60,6 +54,7 @@ export const createPost = async (req: Request, res: Response) => {
       title: dto.title,
       content: dto.content,
       rating: 0,
+      votes: 0,
     });
 
     return res.status(201).json({ post });
@@ -92,11 +87,12 @@ export const editPost = async (req: Request, res: Response) => {
 
     if (dto.rating) {
       const prevrate = post.rating ?? 0;
-      const votes = post.votes ?? 1;
-      const rating = prevrate + dto.rating / votes;
+      let votes = post.votes + 1 ?? 1;
+      const rating = (prevrate + dto.rating) / votes;
 
       post.set({
-        rating,
+        votes,
+        rating: Number(rating.toFixed(1)),
       });
     } else if (post.userId === sub) {
       post.set({
@@ -104,6 +100,8 @@ export const editPost = async (req: Request, res: Response) => {
         content: dto.content ?? post.content,
       });
     }
+
+    await post.save().catch(() => {});
 
     return res.status(200).json({ post });
   } catch (error) {

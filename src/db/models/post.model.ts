@@ -15,8 +15,8 @@ export interface PostModel
   title: string;
   content: string;
   userId: string;
-  rating?: number;
-  votes?: number;
+  rating: number;
+  votes: number;
 }
 
 export const PostModel = sequelize.define<PostModel>(
