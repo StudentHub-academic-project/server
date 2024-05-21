@@ -38,7 +38,7 @@ export const getAllMaterials = async (req: Request, res: Response) => {
     const dirExists = await isExists(dirPath);
 
     if (!dirExists) {
-      return res.status(404).json({ error: 'No such file or directory.' });
+      return res.status(200).json({ files: [] });
     }
 
     const files = await fs.promises.readdir(dirPath);

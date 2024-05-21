@@ -35,13 +35,14 @@ export const getUser = async (req: Request, res: Response) => {
     const dirExists = await isExists(dirpath);
 
     if (!dirExists) {
-      return res.status(404).json({ error: 'No such file or directory.' });
+      return res.status(200).json({ user, posts, materials: [] });
     }
+
     const materials = await fs.promises.readdir(dirpath);
 
     return res.status(200).json({ user, posts, materials });
   } catch (error) {
-    await handleError(error, () => {
+    return await handleError(error, () => {
       res.status(500).json({ error: 'Internal server error.' });
     });
   }

@@ -19,7 +19,6 @@ export const signup = async (req: Request, res: Response) => {
     });
 
     if (isExists.length !== 0) {
-      console.log(isExists);
       return res.status(403).json({ error: 'Forbidden.' });
     }
 

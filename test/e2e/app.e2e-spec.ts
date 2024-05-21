@@ -14,9 +14,8 @@ describe('End to end tests', () => {
   beforeAll(async () => {
     try {
       await sequelize.authenticate();
-      await UserModel.sync({ force: true });
-      await PostModel.sync({ force: true });
-      return console.log('Database connection established successfully.');
+      await UserModel.drop();
+      await PostModel.drop();
     } catch (error) {
       handleErrorSync(error, { throw: true });
     }
