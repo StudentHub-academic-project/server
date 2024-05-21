@@ -4,7 +4,7 @@ import { AuthController } from '../auth';
 import { rateLimitter } from '../middleware';
 import { UserController } from '../user';
 import { PostController } from '../post';
-import {MaterialController} from "../materials";
+import { MaterialController } from '../materials';
 
 dotenv.config();
 
