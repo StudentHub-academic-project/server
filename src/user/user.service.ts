@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
-import { UserModel } from '../db';
+import {PostModel, UserModel} from '../db';
 import { EdituserDto } from './dto';
-import { handleError } from '@stlib/utils';
+import {handleError, isExists} from '@stlib/utils';
+import * as fs from "fs";
+import path from "node:path";
+import {rootDir} from "../materials";
 
 export const getUser = async (req: Request, res: Response) => {
   try {
@@ -17,7 +20,26 @@ export const getUser = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Not found.' });
     }
 
-    return res.status(200).json({ user });
+    if(!user?.uuid) {
+      return res.status(403).json({ message: 'Forbidden.' });
+    }
+
+    const posts = await PostModel.findAll({
+      where:{
+        userId: user.uuid
+      }
+    })
+
+    const dirpath = path.join(rootDir, 'storage', user.uuid)
+
+    const dirExists = await isExists(dirpath);
+
+    if(!dirExists) {
+      return res.status(404).json({ error: 'No such file or directory.' });
+    }
+    const materials = await fs.promises.readdir(dirpath);
+
+    return res.status(200).json({ user, posts, materials });
   } catch (error) {
     await handleError(error, () => {
       res.status(500).json({ error: 'Internal server error.' });
