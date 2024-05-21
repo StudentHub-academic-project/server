@@ -4,6 +4,25 @@ import {rootDir} from "./multer.config";
 import {handleError, isExists} from "@stlib/utils";
 import * as fs from "fs";
 
+const getFilepath = async (req: Request, res: Response) => {
+  const { sub } = req.user;
+  const { filename } = req.params;
+
+  if(!sub) {
+    return res.status(403).json({ error: 'Forbidden.' });
+  }
+
+  const filePath = path.join(rootDir, 'storage', sub, filename);
+
+  const fileExists = await isExists(filePath);
+
+  if(!fileExists) {
+    return res.status(403).json({ error: 'download: No such file or directory.' });
+  }
+
+  return filePath;
+}
+
 export const getAllMaterials = async (req: Request, res: Response) => {
   const { sub } = req.user;
 
@@ -25,24 +44,19 @@ export const getAllMaterials = async (req: Request, res: Response) => {
 }
 
 export const downloadFile = async (req: Request, res: Response) => {
-  const { sub } = req.user;
-  const { filename } = req.params;
+  const filePath = await getFilepath(req, res);
 
-  if(!sub) {
-    return res.status(403).json({ error: 'Forbidden.' });
-  }
-
-  const filePath = path.join(rootDir, 'storage', sub, filename);
-
-  const fileExists = await isExists(filePath);
-
-  if(!fileExists) {
-    return res.status(403).json({ error: 'download: No such file or directory.' });
-  }
-
-  return res.download(filePath, async (error) => {
+  return res.download(filePath.toString(), async (error) => {
     await handleError(error, () => {
       res.status(500).json({ error: 'Internal server error.' });
     })
   })
+}
+
+export const deleteMaterial = async (req: Request, res: Response) => {
+  const filePath = await getFilepath(req, res);
+
+  await fs.promises.rm(filePath.toString());
+
+  return res.status(204).json({ message: 'File has been deleted.' });
 }
