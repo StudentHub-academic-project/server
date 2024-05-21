@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import {PostModel, UserModel} from '../db';
+import { PostModel, UserModel } from '../db';
 import { EdituserDto } from './dto';
-import {handleError, isExists} from '@stlib/utils';
-import * as fs from "fs";
-import path from "node:path";
-import {rootDir} from "../materials";
+import { handleError, isExists } from '@stlib/utils';
+import * as fs from 'fs';
+import path from 'node:path';
+import { rootDir } from '../materials';
 
 export const getUser = async (req: Request, res: Response) => {
   try {
@@ -20,21 +20,21 @@ export const getUser = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Not found.' });
     }
 
-    if(!user?.uuid) {
+    if (!user?.uuid) {
       return res.status(403).json({ message: 'Forbidden.' });
     }
 
     const posts = await PostModel.findAll({
-      where:{
-        userId: user.uuid
-      }
-    })
+      where: {
+        userId: user.uuid,
+      },
+    });
 
-    const dirpath = path.join(rootDir, 'storage', user.uuid)
+    const dirpath = path.join(rootDir, 'storage', user.uuid);
 
     const dirExists = await isExists(dirpath);
 
-    if(!dirExists) {
+    if (!dirExists) {
       return res.status(404).json({ error: 'No such file or directory.' });
     }
     const materials = await fs.promises.readdir(dirpath);
