@@ -2,6 +2,27 @@ import { Request, Response } from 'express';
 import path from "node:path";
 import {rootDir} from "./multer.config";
 import {handleError, isExists} from "@stlib/utils";
+import * as fs from "fs";
+
+export const getAllMaterials = async (req: Request, res: Response) => {
+  const { sub } = req.user;
+
+  if(!sub) {
+    return res.status(403).json({ error: 'Forbidden.' });
+  }
+
+  const dirPath = path.join(rootDir, 'storage', sub);
+
+  const dirExists = await isExists(dirPath);
+
+  if(!dirExists) {
+    return res.status(403).json({ error: 'download: No such file or directory.' });
+  }
+
+  const files = await fs.promises.readdir(dirPath);
+
+  return res.status(200).json({ files });
+}
 
 export const downloadFile = async (req: Request, res: Response) => {
   const { sub } = req.user;
