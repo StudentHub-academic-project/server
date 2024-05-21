@@ -3,6 +3,8 @@ import multer from "multer";
 import path from "node:path";
 import os from "os";
 
+export const rootDir = path.join(os.homedir(), '.studenthub');
+
 const storage = multer.diskStorage({
   destination: async (req, _file, callback) => {
     const { sub } = req.user;
