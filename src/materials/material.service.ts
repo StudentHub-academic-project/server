@@ -4,7 +4,7 @@ import {rootDir} from "./multer.config";
 import {handleError, isExists} from "@stlib/utils";
 import * as fs from "fs";
 
-const getFilepath = async (req: Request, res: Response): Promise<{ filePath: string, OK: boolean }> => {
+const getFilepath = async (req: Request): Promise<{ filePath: string, OK: boolean }> => {
   const { sub } = req.user;
   const { filename } = req.params;
 
@@ -51,7 +51,7 @@ export const getAllMaterials = async (req: Request, res: Response) => {
 
 export const downloadFile = async (req: Request, res: Response) => {
   try {
-    const { filePath, OK } = await getFilepath(req, res);
+    const { filePath, OK } = await getFilepath(req);
 
     if(!OK) {
       return res.status(404).json({ error: 'No such file or directory.' })
@@ -71,7 +71,7 @@ export const downloadFile = async (req: Request, res: Response) => {
 
 export const deleteMaterial = async (req: Request, res: Response) => {
   try {
-    const { filePath, OK } = await getFilepath(req, res);
+    const { filePath, OK } = await getFilepath(req);
 
     if(!OK) {
       return res.status(404).json({ error: 'No such file or directory.' })
