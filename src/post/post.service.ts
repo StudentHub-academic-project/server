@@ -1,6 +1,6 @@
 import { PostModel } from '../db';
 import { Request, Response } from 'express';
-import { handleError } from '@stlib/utils';
+import {handleError, handleErrorSync} from '@stlib/utils';
 import { CreatePostDto } from './dto';
 import { v4 as uuidv4 } from 'uuid';
 import { EditPostDto } from './dto/edit-post.dto';
@@ -44,8 +44,12 @@ export const createPost = async (req: Request, res: Response) => {
     const { sub } = req.user;
     const dto: CreatePostDto = req.body;
 
+    if(dto.title == null || undefined || dto.content == null || undefined) {
+      return res.status(400).json({ error: 'Title and content of post cannot be null or undefined.' });
+    }
+
     if (!sub) {
-      return res.status(403).json({ message: 'Forbidden.' });
+      return res.status(403).json({ error: 'Forbidden.' });
     }
 
     const post = await PostModel.create({
@@ -59,9 +63,8 @@ export const createPost = async (req: Request, res: Response) => {
 
     return res.status(201).json({ post });
   } catch (error) {
-    await handleError(error, () => {
-      res.status(500).json({ error: 'Internal server error.' });
-    });
+    handleErrorSync(error)
+    return res.status(500).json({ error: 'Internal server error.' });
   }
 };
 
@@ -70,6 +73,10 @@ export const editPost = async (req: Request, res: Response) => {
     const { post_id } = req.params;
     const { sub } = req.user;
     const dto: EditPostDto = req.body;
+
+    if(dto.title == null || undefined || dto.content == null || undefined) {
+      return res.status(400).json({ error: 'Title and content of post cannot be null or undefined.' });
+    }
 
     if (!sub) {
       return res.status(403).json({ message: 'Forbidden.' });
