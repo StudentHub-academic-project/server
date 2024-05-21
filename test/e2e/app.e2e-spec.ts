@@ -10,6 +10,7 @@ dotenv.config();
 
 describe('End to end tests', () => {
   let authtoken = '';
+  let sub = '';
 
   beforeAll(async () => {
     try {
@@ -58,7 +59,7 @@ describe('End to end tests', () => {
       });
 
       it('Should signup', async () => {
-        return supertest(app)
+        const response = await supertest(app)
           .post('/auth/signup')
           .send({
             username: dto.username,
@@ -68,6 +69,8 @@ describe('End to end tests', () => {
             password_repeat: dto.password,
           })
           .expect(201);
+
+        sub = response.body.user.uuid;
       });
 
       it('Should throw if user already exists', async () => {
@@ -136,6 +139,15 @@ describe('End to end tests', () => {
       it('Should return user by username', () => {
         return supertest(app)
           .get('/user/user')
+          .set('Authorization', `Bearer ${authtoken}`)
+          .expect(200);
+      });
+    });
+
+    describe('/user_id get user', () => {
+      it('Should return user by id', () => {
+        return supertest(app)
+          .get(`/user/id/${sub}`)
           .set('Authorization', `Bearer ${authtoken}`)
           .expect(200);
       });

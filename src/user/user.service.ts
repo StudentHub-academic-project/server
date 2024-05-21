@@ -8,13 +8,23 @@ import { rootDir } from '../materials';
 
 export const getUser = async (req: Request, res: Response) => {
   try {
+    let user;
+    const { user_id } = req.params;
     const username = req.params?.username || req.user.username;
 
-    const user = await UserModel.findOne({
-      where: {
-        username,
-      },
-    });
+    if (req.baseUrl === 'id') {
+      user = await UserModel.findOne({
+        where: {
+          uuid: user_id,
+        },
+      });
+    } else {
+      user = await UserModel.findOne({
+        where: {
+          username,
+        },
+      });
+    }
 
     if (!user) {
       return res.status(404).json({ message: 'Not found.' });
