@@ -670,10 +670,10 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@stlib/utils@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@stlib/utils/-/utils-0.0.6.tgz#69eb9b3a8266c3425f7c85a456106f81f113c0e5"
-  integrity sha512-qD+2VjFDOZSbl1vSWuWIRjxEN3rWz91/PxEzlSNl7aG0RYhK5ioLvSC8FG87ad7xLSb0m4HnUxYkhrgd26t/lw==
+"@stlib/utils@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@stlib/utils/-/utils-0.0.7.tgz#f5fbf7c5bf61eeec272392cc3e4e97a758a02f01"
+  integrity sha512-RsOmkAMBJ61G1+IF41TciBcocYjhp/tDRKpUGIXNYeemhZQFp32yWXK0Vy3bETO1Ns2uVBo/7bk9ol3xEXO4/g==
 
 "@tootallnate/once@1":
   version "1.1.2"
