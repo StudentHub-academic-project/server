@@ -5,6 +5,7 @@ import { rateLimitter } from '../middleware';
 import { UserController } from '../user';
 import { PostController } from '../post';
 import { MaterialController } from '../materials';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ const HOST: string = process.env.HOST || 'localhost';
 export const app = express();
 app.use(express.json());
 app.use(rateLimitter);
+app.use(cors());
 
 app.use('/auth', AuthController);
 app.use('/user', UserController);

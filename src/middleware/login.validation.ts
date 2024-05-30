@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JsonWebTokenError, JwtPayload } from 'jsonwebtoken';
-import { handleError } from '@stlib/utils';
+import {handleErrorSync} from '@stlib/utils';
 
 declare module 'express-serve-static-core' {
   interface Request {
@@ -57,8 +57,7 @@ export const isLoggedIn = async (
 
     next();
   } catch (error) {
-    await handleError(error, () => {
-      res.status(401).json({ error: 'Unauthorized.' });
-    });
+    handleErrorSync(error);
+    return res.status(401).json({ error: 'Unauthorized.' });
   }
 };
